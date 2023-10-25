@@ -7,27 +7,27 @@ function getUnixTimestamp(date) {
 }
 
 // DOM
-const confirmedTotal = $('.confirmed-total');
-const deathsTotal = $('.deaths');
-const recoveredTotal = $('.recovered');
-const lastUpdatedTime = $('.last-updated-time');
-const rankList = $('.rank-list');
-const deathsList = $('.deaths-list');
-const recoveredList = $('.recovered-list');
-const deathSpinner = createSpinnerElement('deaths-spinner');
-const recoveredSpinner = createSpinnerElement('recovered-spinner');
+const confirmedTotal = $(".confirmed-total");
+const deathsTotal = $(".deaths");
+const recoveredTotal = $(".recovered");
+const lastUpdatedTime = $(".last-updated-time");
+const rankList = $(".rank-list");
+const deathsList = $(".deaths-list");
+const recoveredList = $(".recovered-list");
+const deathSpinner = createSpinnerElement("deaths-spinner");
+const recoveredSpinner = createSpinnerElement("recovered-spinner");
 
 function createSpinnerElement(id) {
-  const wrapperDiv = document.createElement('div');
-  wrapperDiv.setAttribute('id', id);
+  const wrapperDiv = document.createElement("div");
+  wrapperDiv.setAttribute("id", id);
   wrapperDiv.setAttribute(
-    'class',
-    'spinner-wrapper flex justify-center align-center',
+    "class",
+    "spinner-wrapper flex justify-center align-center"
   );
-  const spinnerDiv = document.createElement('div');
-  spinnerDiv.setAttribute('class', 'ripple-spinner');
-  spinnerDiv.appendChild(document.createElement('div'));
-  spinnerDiv.appendChild(document.createElement('div'));
+  const spinnerDiv = document.createElement("div");
+  spinnerDiv.setAttribute("class", "ripple-spinner");
+  spinnerDiv.appendChild(document.createElement("div"));
+  spinnerDiv.appendChild(document.createElement("div"));
   wrapperDiv.appendChild(spinnerDiv);
   return wrapperDiv;
 }
@@ -38,7 +38,7 @@ let isRecoveredLoading = false;
 
 // api
 function fetchCovidSummary() {
-  const url = 'https://api.covid19api.com/summary';
+  const url = "https://api.covid19api.com/summary";
   return axios.get(url);
 }
 
@@ -56,7 +56,7 @@ function startApp() {
 
 // events
 function initEvents() {
-  rankList.addEventListener('click', handleListClick);
+  rankList.addEventListener("click", handleListClick);
 }
 
 async function handleListClick(event) {
@@ -77,14 +77,14 @@ async function handleListClick(event) {
   clearRecoveredList();
   startLoadingAnimation();
   isDeathLoading = true;
-  const { data: deathResponse } = await fetchCountryInfo(selectedId, 'deaths');
+  const { data: deathResponse } = await fetchCountryInfo(selectedId, "deaths");
   const { data: recoveredResponse } = await fetchCountryInfo(
     selectedId,
-    'recovered',
+    "recovered"
   );
   const { data: confirmedResponse } = await fetchCountryInfo(
     selectedId,
-    'confirmed',
+    "confirmed"
   );
   console.log(confirmedResponse);
   endLoadingAnimation();
@@ -99,15 +99,15 @@ async function handleListClick(event) {
 
 function setDeathsList(data) {
   const sorted = data.sort(
-    (a, b) => getUnixTimestamp(b.Date) - getUnixTimestamp(a.Date),
+    (a, b) => getUnixTimestamp(b.Date) - getUnixTimestamp(a.Date)
   );
-  sorted.forEach(value => {
-    const li = document.createElement('li');
-    li.setAttribute('class', 'list-item-b flex align-center');
-    const span = document.createElement('span');
+  sorted.forEach((value) => {
+    const li = document.createElement("li");
+    li.setAttribute("class", "list-item-b flex align-center");
+    const span = document.createElement("span");
     span.textContent = value.Cases;
-    span.setAttribute('class', 'deaths');
-    const p = document.createElement('p');
+    span.setAttribute("class", "deaths");
+    const p = document.createElement("p");
     p.textContent = new Date(value.Date).toLocaleDateString().slice(0, -1);
     li.appendChild(span);
     li.appendChild(p);
@@ -125,15 +125,15 @@ function setTotalDeathsByCountry(data) {
 
 function setRecoveredList(data) {
   const sorted = data.sort(
-    (a, b) => getUnixTimestamp(b.Date) - getUnixTimestamp(a.Date),
+    (a, b) => getUnixTimestamp(b.Date) - getUnixTimestamp(a.Date)
   );
-  sorted.forEach(value => {
-    const li = document.createElement('li');
-    li.setAttribute('class', 'list-item-b flex align-center');
-    const span = document.createElement('span');
+  sorted.forEach((value) => {
+    const li = document.createElement("li");
+    li.setAttribute("class", "list-item-b flex align-center");
+    const span = document.createElement("span");
     span.textContent = value.Cases;
-    span.setAttribute('class', 'recovered');
-    const p = document.createElement('p');
+    span.setAttribute("class", "recovered");
+    const p = document.createElement("p");
     p.textContent = new Date(value.Date).toLocaleDateString().slice(0, -1);
     li.appendChild(span);
     li.appendChild(p);
@@ -159,7 +159,6 @@ function endLoadingAnimation() {
   recoveredList.removeChild(recoveredSpinner);
 }
 
-//
 async function setupData() {
   const { data } = await fetchCovidSummary();
   console.log(data);
@@ -172,28 +171,28 @@ async function setupData() {
 }
 
 function renderChart(data, labels) {
-  var ctx = $('#lineChart').getContext('2d');
+  var ctx = $("#lineChart").getContext("2d");
   const defaultLabel = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
   ];
   const defaultData = [0, 10, 5, 2, 20, 30, 45];
-  Chart.defaults.global.defaultFontColor = '#f5eaea';
-  Chart.defaults.global.defaultFontFamily = 'Exo 2';
+  Chart.defaults.global.defaultFontColor = "#f5eaea";
+  Chart.defaults.global.defaultFontFamily = "Exo 2";
   var chart = new Chart(ctx, {
-    type: 'line',
+    type: "line",
     data: {
       labels,
       datasets: [
         {
-          label: 'Confirmed for the last two weeks',
-          backgroundColor: '#feb72b',
-          borderColor: '#feb72b',
+          label: "Confirmed for the last two weeks",
+          backgroundColor: "#feb72b",
+          borderColor: "#feb72b",
           data,
         },
       ],
@@ -203,47 +202,47 @@ function renderChart(data, labels) {
 }
 
 function setChartData(data) {
-  const chartData = data.slice(-14).map(value => value.Cases);
+  const chartData = data.slice(-14).map((value) => value.Cases);
   const chartLabel = data
     .slice(-14)
-    .map(value => new Date(value.Date).toLocaleDateString().slice(5, -1));
+    .map((value) => new Date(value.Date).toLocaleDateString().slice(5, -1));
   renderChart(chartData, chartLabel);
 }
 
 function setTotalConfirmedNumber(data) {
   confirmedTotal.innerText = data.Countries.reduce(
     (total, current) => (total += current.TotalConfirmed),
-    0,
+    0
   );
 }
 
 function setTotalDeathsByWorld(data) {
   deathsTotal.innerText = data.Countries.reduce(
     (total, current) => (total += current.TotalDeaths),
-    0,
+    0
   );
 }
 
 function setTotalRecoveredByWorld(data) {
   recoveredTotal.innerText = data.Countries.reduce(
     (total, current) => (total += current.TotalRecovered),
-    0,
+    0
   );
 }
 
 function setCountryRanksByConfirmedCases(data) {
   const sorted = data.Countries.sort(
-    (a, b) => b.TotalConfirmed - a.TotalConfirmed,
+    (a, b) => b.TotalConfirmed - a.TotalConfirmed
   );
-  sorted.forEach(value => {
-    const li = document.createElement('li');
-    li.setAttribute('class', 'list-item flex align-center');
-    li.setAttribute('id', value.Slug);
-    const span = document.createElement('span');
+  sorted.forEach((value) => {
+    const li = document.createElement("li");
+    li.setAttribute("class", "list-item flex align-center");
+    li.setAttribute("id", value.Slug);
+    const span = document.createElement("span");
     span.textContent = value.TotalConfirmed;
-    span.setAttribute('class', 'cases');
-    const p = document.createElement('p');
-    p.setAttribute('class', 'country');
+    span.setAttribute("class", "cases");
+    const p = document.createElement("p");
+    p.setAttribute("class", "country");
     p.textContent = value.Country;
     li.appendChild(span);
     li.appendChild(p);

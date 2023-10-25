@@ -12,6 +12,8 @@
 - [x] NPM 초기화
 - [x] 타입스크립트 라이브러리 설치
 - [x] 타입스크립트 설정 파일 생성 및 기본 값 추가
+- [x] 자바스크립트의 파일을 타입스크립트 파일로 변환
+- [x] `tsc` 명령어로 타입스크립트 컴파일 하기
 
 ### 자바스크립트 코드에 타입스크립트를 적용할 때 주의해야 할 점
 
@@ -85,7 +87,14 @@ function fetchCovidSummary() {
 `compilerOptions`
 
 - `allowJs` : 자바스크립트 파일을 타입스크립트에서 인식해서 사용하겠다
-- `target` :
+- `target` : ts 파일을 js로 변환해주는 tsc 명령어를 실행하도록 해주는 명령어
+- `outDir` : 타입스크립트의 결과물이 들어갈 위치 지정
+- `moduleResolution` : Promise 베이스 코드를 작성할 때 Promise를 인식시켜주기 위해서 'Node'를 value로 넣기
+
+- `include` : 어떤 폴더를 대상으로 ts를 컴파일 시킬 것인가를 저장. 기본 값이 있음.
+  - include 디폴트 값 : [“**/*”] === 모든 폴더
+  - exclude 디폴트 값 : [“node_modules”, “bower_components”, “jspm_packages”]
+- `lib` : 새로운 문법에 대한 컴파일 옵션 라이브러리 추가
 
 ---
 
