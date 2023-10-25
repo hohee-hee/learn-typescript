@@ -176,7 +176,6 @@ function endLoadingAnimation() {
     deathsList.removeChild(deathSpinner);
     recoveredList.removeChild(recoveredSpinner);
 }
-//
 function setupData() {
     return __awaiter(this, void 0, void 0, function () {
         var data;
@@ -230,7 +229,9 @@ function setChartData(data) {
     var chartData = data.slice(-14).map(function (value) { return value.Cases; });
     var chartLabel = data
         .slice(-14)
-        .map(function (value) { return new Date(value.Date).toLocaleDateString().slice(5, -1); });
+        .map(function (value) {
+        return new Date(value.Date).toLocaleDateString().slice(5, -1);
+    });
     renderChart(chartData, chartLabel);
 }
 function setTotalConfirmedNumber(data) {

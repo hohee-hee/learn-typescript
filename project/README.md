@@ -15,6 +15,10 @@
 - [x] 자바스크립트의 파일을 타입스크립트 파일로 변환
 - [x] `tsc` 명령어로 타입스크립트 컴파일 하기
 
+2. 명시적인 `any` 선언하기
+
+- `tsconfig.json` 파일에 `noImplicitAny` 값을 `true`로 추가
+
 ### 자바스크립트 코드에 타입스크립트를 적용할 때 주의해야 할 점
 
 1. 기능적인 변경은 절대 하지 않을 것
@@ -95,6 +99,41 @@ function fetchCovidSummary() {
   - include 디폴트 값 : [“**/*”] === 모든 폴더
   - exclude 디폴트 값 : [“node_modules”, “bower_components”, “jspm_packages”]
 - `lib` : 새로운 문법에 대한 컴파일 옵션 라이브러리 추가
+
+### 2. 명시적인 `any` 선언하기
+
+`noImplicitAny` 속성을 true로 변경했더니 생기는 오류 : `Parameter 'selector' implicitly has an 'any' type.ts(7006)`
+
+- 타입 에러가 날 수 있는 부분을 다 짚어주고 있다.
+- 타입을 모르겠으면 'any'라도 집어넣어라.
+  - 일단 any로 다 넣었다.
+
+**1. DOM 관련 타입 구체화**
+
+> util, DOM
+
+- `selector`, `id` 등 querySelector의 파라미터로 들어가는 값의 타입 : string
+- `date` : `Date` 타입(추론 결과)
+
+**2. api 관련 타입 구체화**
+
+> api
+
+- `countryCode` : 종류가 많기 때문에 string
+- `status` : 고정된 값들이 있기 때문에 enum으로 해당 값들을 바인딩 해준 후, 그 enum을 타입으로 지정하기
+- 오류 해결 : string 타입을 인자로 넣어 해당 함수를 부르는 라인에서 파라미터를 enum 값으로 정해주기
+
+**3. DOM 함수 관련 타입 오류**
+
+- `Property 'innerText' does not exist on type 'Element'.ts(2339)`
+
+  - querySelector는 기본적으로 `Element` 타입으로 반환
+  - `innerText`를 사용할 수 있도록 `HTMLParagraphElement`로 타입을 변경해준다.
+  - 이 때 해당 변수에 직접 `: HTMLParagraphElement`를 넣어주면 `Type 'Element' is missing the following properties from type 'HTMLParagraphElement': align, accessKey, accessKeyLabel, autocapitalize, and 123 more.ts(2740)` 이런 오류가 나는데, 이는 1:1로 바인딩 되지 않기 때문에 나는 오류이다.
+  - 따라서 별칭(as)을 사용하여 타입을 정의해준다.
+    ```typescript
+    const deathsTotal = $(".deaths") as HTMLParagraphElement;
+    ```
 
 ---
 
