@@ -1,0 +1,15 @@
+{
+  "name": "project",
+  "version": "1.0.0",
+  "description": "> 기존 강의는 코로나 세계 현황판을 만들지만 2023년 3월부로 해당 API는 서비스를 종료하였기 때문에 공공데이터포털에서 제공하는 코로나19 국내 현황판을 제작할 예정이다.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "typescript": "^5.2.2"
+  }
+}
